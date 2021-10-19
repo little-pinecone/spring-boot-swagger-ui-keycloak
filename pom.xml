@@ -15,23 +15,34 @@
 	<description>Demo Spring Boot app showing Swagger UI secured with Keycloak</description>
 	<properties>
 		<java.version>13</java.version>
+		<dummy4j.version>0.9.0</dummy4j.version>
 	</properties>
 	<dependencies>
+		<!-- Spring Boot misc. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- END of Spring Boot misc. -->
+
+		<!-- Utilities -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>dev.codesoapbox</groupId>
+			<artifactId>dummy4j</artifactId>
+			<version>${dummy4j.version}</version>
+		</dependency>
+		<!-- END of Utilities -->
+
 	</dependencies>
 
 	<build>
