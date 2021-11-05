@@ -32,6 +32,14 @@ docker-compose up -d
 * username: `admin`
 * password: `admin`
 
+#### For example users of this app
+
+* available usernames: `christina`, `hanna`, `carlo`, `noel`
+* password: `test`
+
+The `keycloak` service starts with the default realm imported from the
+[docker/keycloak/realms/realm-export.json](docker/keycloak/realms/realm-export.json) file that specifies all the default users.
+
 ### Visit API documentation
 
 Make sure that the app is running.
