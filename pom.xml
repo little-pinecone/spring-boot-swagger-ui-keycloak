@@ -38,11 +38,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 		<!-- END of Spring Boot misc. -->
 
 		<!-- Security -->
@@ -51,6 +46,22 @@
 			<artifactId>keycloak-spring-boot-starter</artifactId>
 		</dependency>
 		<!-- END of Security -->
+
+		<!-- Docs -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
+		<!-- END of Docs -->
+
+		<!-- Tests -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- END Tests -->
 
 		<!-- Utilities -->
 		<dependency>
@@ -62,11 +73,6 @@
 			<groupId>dev.codesoapbox</groupId>
 			<artifactId>dummy4j</artifactId>
 			<version>${dummy4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>${springdoc.version}</version>
 		</dependency>
 		<!-- Dependency for removing IntelliJ warning -->
 		<!-- https://youtrack.jetbrains.com/issue/IDEA-225445 -->
