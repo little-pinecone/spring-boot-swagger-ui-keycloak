@@ -64,6 +64,7 @@ Make sure that the `keycloak` container is up.
 ## Built With
 
 * [Spring Boot v2.5+](https://spring.io/projects/spring-boot)
+* [Keycloak Spring Boot adapter](https://www.keycloak.org/docs/latest/securing_apps/#_spring_boot_adapter)
 * [Maven](https://maven.apache.org/)
 * [springdoc-openapi](https://springdoc.org/)
 * [Keycloak](https://www.keycloak.org/)
