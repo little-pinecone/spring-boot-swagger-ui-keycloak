@@ -16,7 +16,7 @@
 	<properties>
 		<java.version>13</java.version>
 		<dummy4j.version>0.9.0</dummy4j.version>
-		<springdoc.version>1.5.11</springdoc.version>
+		<springdoc.version>1.5.12</springdoc.version>
 		<keycloak-adapter.version>15.0.2</keycloak-adapter.version>
 	</properties>
 
