@@ -5,11 +5,10 @@ import in.keepgrowing.springbootswaggeruikeycloak.products.domain.model.Product;
 import in.keepgrowing.springbootswaggeruikeycloak.products.domain.model.TestProductProvider;
 import in.keepgrowing.springbootswaggeruikeycloak.products.domain.repositories.ProductRepository;
 import in.keepgrowing.springbootswaggeruikeycloak.products.infrastructure.config.MvcConfig;
+import in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.annotations.RestControllerIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,15 +19,14 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc
-@WebMvcTest(value = ProductController.class)
+@RestControllerIntegrationTest(value = ProductController.class)
 class ProductControllerTest {
-
 
     private static final String BASE_PATH = "/" + MvcConfig.API_PREFIX + "/" + ProductControllerPaths.PRODUCTS_PATH;
     private static final String TEST_UUID = "a25fd1a8-b2e2-3b40-97a5-cead9ec87986";
@@ -110,7 +108,8 @@ class ProductControllerTest {
 
         mvc.perform(post(BASE_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(productDetails)))
+                        .content(objectMapper.writeValueAsString(productDetails))
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedResponse));
     }
