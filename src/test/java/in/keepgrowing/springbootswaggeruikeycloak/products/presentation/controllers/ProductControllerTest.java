@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -56,6 +57,7 @@ class ProductControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldReturnAllProducts() throws Exception {
         Product product = productProvider.full();
         List<Product> products = List.of(product);
@@ -72,6 +74,7 @@ class ProductControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldReturnProductById() throws Exception {
         Product product = productProvider.full();
 
@@ -87,6 +90,7 @@ class ProductControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldReturnNotFoundForNonExistingId() throws Exception {
         when(productRepository.findById(UUID.fromString(TEST_UUID)))
                 .thenReturn(Optional.empty());
@@ -97,6 +101,7 @@ class ProductControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldSaveNewProduct() throws Exception {
         Product productDetails = productProvider.withoutId();
         Product expected = productProvider.full();

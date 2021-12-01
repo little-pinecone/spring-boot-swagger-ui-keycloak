@@ -1,9 +1,8 @@
 package in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.annotations;
 
-import in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.RestControllerIntegrationTestConfig;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.core.annotation.AliasFor;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @WebMvcTest
-@ContextConfiguration(classes = RestControllerIntegrationTestConfig.class)
+@ActiveProfiles("test")
 public @interface RestControllerIntegrationTest {
 
     /**
