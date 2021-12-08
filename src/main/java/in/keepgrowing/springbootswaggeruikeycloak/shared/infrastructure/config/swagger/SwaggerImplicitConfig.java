@@ -11,12 +11,14 @@ import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @OpenAPIDefinition
 @AllArgsConstructor
+@ConditionalOnProperty(name = "security.config.implicit-flow", havingValue = "true", matchIfMissing = true)
 public class SwaggerImplicitConfig {
 
     private static final String OAUTH_SCHEME_NAME = "oAuth";
