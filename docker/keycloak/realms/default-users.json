@@ -13,7 +13,8 @@
         }
       ],
       "realmRoles": [
-        "user"
+        "user",
+        "chief-operating-officer"
       ],
       "clientRoles": {
         "account": [

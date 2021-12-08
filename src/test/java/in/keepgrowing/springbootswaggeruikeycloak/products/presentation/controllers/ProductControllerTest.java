@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -74,6 +75,17 @@ class ProductControllerTest {
     }
 
     @Test
+    void shouldNotReturnAllProductForUnauthenticatedUser() throws Exception {
+        Product productDetails = productProvider.withoutId();
+
+        mvc.perform(post(BASE_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productDetails))
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     @WithMockUser
     void shouldReturnProductById() throws Exception {
         Product product = productProvider.full();
@@ -101,7 +113,14 @@ class ProductControllerTest {
     }
 
     @Test
-    @WithMockUser
+    void shouldNotReturnProductByIdForUnauthenticatedUser() throws Exception {
+        mvc.perform(get(BASE_PATH + "/" + TEST_UUID)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(authorities = {"chief-operating-officer"})
     void shouldSaveNewProduct() throws Exception {
         Product productDetails = productProvider.withoutId();
         Product expected = productProvider.full();
@@ -117,5 +136,28 @@ class ProductControllerTest {
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedResponse));
+    }
+
+    @Test
+    @WithAnonymousUser()
+    void shouldNotSaveNewProductForAnonymousUser() throws Exception {
+        Product productDetails = productProvider.withoutId();
+
+        mvc.perform(post(BASE_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productDetails))
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void shouldNotSaveNewProductForUnauthenticatedUser() throws Exception {
+        Product productDetails = productProvider.withoutId();
+
+        mvc.perform(post(BASE_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productDetails))
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
     }
 }

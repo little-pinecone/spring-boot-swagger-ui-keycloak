@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,7 +41,8 @@ public class ProductController {
     }
 
     @PostMapping()
-    @Operation(summary = "Save a product")
+    @PreAuthorize("hasAuthority('chief-operating-officer')")
+    @Operation(summary = "Save a product (available only for chief-operating-officer role")
     public ResponseEntity<Product> save(@RequestBody Product productDetails) {
         return productRepository.save(productDetails)
                 .map(ResponseEntity::ok)
