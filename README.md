@@ -110,7 +110,7 @@ Connect Discovery mechanism.
 
 ## Built With
 
-* [Spring Boot v2.5+](https://spring.io/projects/spring-boot)
+* [Spring Boot v2.6+](https://spring.io/projects/spring-boot)
 * [Maven](https://maven.apache.org/)
 * [Keycloak](https://www.keycloak.org/)
 * [Keycloak Spring Boot adapter](https://www.keycloak.org/docs/latest/securing_apps/#_spring_boot_adapter)
