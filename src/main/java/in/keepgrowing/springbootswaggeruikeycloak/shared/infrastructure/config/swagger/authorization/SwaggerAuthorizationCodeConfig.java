@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerAuthorizationCodeConfig {
 
     private static final String OAUTH_SCHEME_NAME = "oAuth";
-    private static final String AUTH_URL_FORMAT = "%s/realms/%s/protocol/openid-connect";
+    private static final String PROTOCOL_URL_FORMAT = "%s/realms/%s/protocol/openid-connect";
 
     @Bean
     OpenAPI customOpenApi(KeycloakProperties keycloakProperties, ApiInfoProvider infoProvider) {
@@ -60,11 +60,11 @@ public class SwaggerAuthorizationCodeConfig {
     }
 
     private OAuthFlow createAuthCodeFlow(KeycloakProperties properties) {
-        var authUrl = String.format(AUTH_URL_FORMAT, properties.getAuthServerUrl(), properties.getRealm());
+        var protocolUrl = String.format(PROTOCOL_URL_FORMAT, properties.getAuthServerUrl(), properties.getRealm());
 
         return new OAuthFlow()
-                .authorizationUrl(authUrl + "/auth")
-                .tokenUrl(authUrl + "/token")
+                .authorizationUrl(protocolUrl + "/auth")
+                .tokenUrl(protocolUrl + "/token")
                 .scopes(new Scopes());
     }
 }
