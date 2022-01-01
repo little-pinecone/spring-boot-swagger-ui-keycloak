@@ -4,8 +4,6 @@ import in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.s
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.*;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -22,27 +20,14 @@ public class SwaggerAuthorizationCodeConfig {
     private static final String AUTH_URL_FORMAT = "%s/realms/%s/protocol/openid-connect";
 
     @Bean
-    OpenAPI customOpenApi(SwaggerProperties swaggerProperties, KeycloakProperties keycloakProperties) {
+    OpenAPI customOpenApi(SwaggerProperties swaggerProperties, KeycloakProperties keycloakProperties,
+                          ApiInfoProvider infoProvider) {
         var openAPI = new OpenAPI()
-                .info(getInfo(swaggerProperties));
+                .info(infoProvider.provide(swaggerProperties));
 
         addSecurity(openAPI, keycloakProperties);
 
         return openAPI;
-    }
-
-    private Info getInfo(SwaggerProperties properties) {
-        return new Info()
-                .title(properties.getProjectTitle())
-                .description(properties.getProjectDescription())
-                .version(properties.getProjectVersion())
-                .license(getLicense());
-    }
-
-    private License getLicense() {
-        return new License()
-                .name("Unlicense")
-                .url("https://unlicense.org/");
     }
 
     private void addSecurity(OpenAPI openApi, KeycloakProperties properties) {
