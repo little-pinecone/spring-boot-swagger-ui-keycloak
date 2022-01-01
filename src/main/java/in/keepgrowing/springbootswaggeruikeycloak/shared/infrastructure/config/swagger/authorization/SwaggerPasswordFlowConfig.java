@@ -5,10 +5,7 @@ import in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.s
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.security.OAuthFlow;
-import io.swagger.v3.oas.models.security.OAuthFlows;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.*;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -66,6 +63,7 @@ public class SwaggerPasswordFlowConfig {
         var tokenUrl = String.format(TOKEN_URL_FORMAT, properties.getAuthServerUrl(), properties.getRealm());
 
         return new OAuthFlow()
-                .tokenUrl(tokenUrl);
+                .tokenUrl(tokenUrl)
+                .scopes(new Scopes());
     }
 }
