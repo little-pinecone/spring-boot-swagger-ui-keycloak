@@ -85,28 +85,52 @@ Make sure that the `keycloak` container is up.
 (this role is assigned to `christina` by default)
 * OpenAPI 3 specification
 
-### Experimental
+### Experimental Authorization configurations for Swagger UI
+
+We can enable/disable specific application properties to run the app with different configurations.
+
+At the moment, the Swagger configs for the OpenID Connect Discovery scheme and the Authorization Code flow won't work with
+[Spring Boot csrf protection enabled for Springdoc](https://springdoc.org/#how-can-i-enable-csrf-support). Therefore,
+you won't be able to call the POST endpoints. However, you'll see the available authorizations provided by the OpenID
+Connect Discovery mechanism or use the Authorization Code flow to log in.
+
+#### SwaggerUI with OpenID Connect Discovery scheme
 
 * Swagger Authentication config for the [OpenID Connect Discovery scheme](https://swagger.io/docs/specification/authentication/openid-connect-discovery/). 
 Edit the `application.properties` file so that it contains:
 
 ```
-springdoc.swagger-ui.csrf.enabled=false
+security.config.openid-flow=true
 security.config.implicit-flow=false
+springdoc.swagger-ui.csrf.enabled=false
 ```
 
 Alternatively, run the app with the following command:
 
 ```shell
-mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.implicit-flow=false --springdoc.swagger-ui.csrf.enabled=false"
+mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.openid-flow=true --security.config.implicit-flow=false --springdoc.swagger-ui.csrf.enabled=false"
 ```
 
-At the moment, the Swagger config for the OpenID Connect Discovery scheme won't work with 
-[Spring Boot csrf protection enabled for Springdoc](https://springdoc.org/#how-can-i-enable-csrf-support). Therefore, 
-you won't be able to call the POST endpoints. However, you'll see the available authorizations provided by the OpenID
-Connect Discovery mechanism.
-
 ![swagger ui with keycloak auth for endpoints screenshot](readme-images/swagger-ui-open-id-discovery.png)
+
+#### SwaggerUI with Authorization Code flow
+
+* Swagger Authentication config for the [Authorization Code Flow](https://swagger.io/docs/specification/authentication/oauth2/).
+  Edit the `application.properties` file so that it contains:
+
+```
+security.config.authcode-flow=true
+security.config.implicit-flow=false
+springdoc.swagger-ui.csrf.enabled=false
+```
+
+Alternatively, run the app with the following command:
+
+```shell
+mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.authcode-flow=true --security.config.implicit-flow=false --springdoc.swagger-ui.csrf.enabled=false"
+```
+
+![swagger ui with authorization code flow screenshot](readme-images/swagger-ui-with-auth-code-flow.png)
 
 ## Built With
 

@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition
 @AllArgsConstructor
-@ConditionalOnProperty(name = "security.config.implicit-flow", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "security.config.implicit-flow", havingValue = "true")
 public class SwaggerImplicitConfig {
 
     private static final String OAUTH_SCHEME_NAME = "oAuth";
