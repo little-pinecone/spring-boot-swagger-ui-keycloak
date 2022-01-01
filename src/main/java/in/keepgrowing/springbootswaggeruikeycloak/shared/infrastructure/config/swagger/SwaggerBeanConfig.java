@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerBeanConfig {
 
     @Bean
-    ApiInfoProvider apiInfoProvider() {
-        return new ApiInfoProvider();
+    ApiInfoProvider apiInfoProvider(SwaggerProperties swaggerProperties) {
+        return new ApiInfoProvider(swaggerProperties);
     }
 }

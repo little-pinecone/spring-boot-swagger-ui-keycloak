@@ -5,7 +5,13 @@ import io.swagger.v3.oas.models.info.License;
 
 public class ApiInfoProvider {
 
-    public Info provide(SwaggerProperties properties) {
+    private final SwaggerProperties properties;
+
+    public ApiInfoProvider(SwaggerProperties properties) {
+        this.properties = properties;
+    }
+
+    public Info provide() {
         return new Info()
                 .title(properties.getProjectTitle())
                 .description(properties.getProjectDescription())

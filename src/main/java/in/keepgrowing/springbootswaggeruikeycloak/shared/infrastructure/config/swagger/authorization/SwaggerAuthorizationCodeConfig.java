@@ -2,7 +2,6 @@ package in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.
 
 import in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.security.KeycloakProperties;
 import in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.swagger.ApiInfoProvider;
-import in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.swagger.SwaggerProperties;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -22,10 +21,9 @@ public class SwaggerAuthorizationCodeConfig {
     private static final String AUTH_URL_FORMAT = "%s/realms/%s/protocol/openid-connect";
 
     @Bean
-    OpenAPI customOpenApi(SwaggerProperties swaggerProperties, KeycloakProperties keycloakProperties,
-                          ApiInfoProvider infoProvider) {
+    OpenAPI customOpenApi(KeycloakProperties keycloakProperties, ApiInfoProvider infoProvider) {
         var openAPI = new OpenAPI()
-                .info(infoProvider.provide(swaggerProperties));
+                .info(infoProvider.provide());
 
         addSecurity(openAPI, keycloakProperties);
 
