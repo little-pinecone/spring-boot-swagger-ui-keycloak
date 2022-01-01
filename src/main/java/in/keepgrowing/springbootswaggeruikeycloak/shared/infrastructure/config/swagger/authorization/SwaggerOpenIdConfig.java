@@ -1,6 +1,8 @@
-package in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.swagger;
+package in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.swagger.authorization;
 
 import in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.security.KeycloakProperties;
+import in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.swagger.ApiInfoProvider;
+import in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.swagger.SwaggerProperties;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
