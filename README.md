@@ -97,8 +97,8 @@ in the 403 error.
 
 #### Swagger UI with OpenID Connect Discovery scheme
 
-To enable the Swagger Authentication config for the [OpenID Connect Discovery scheme](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)
-, edit the `application.properties` file so that it contains:
+To enable the Swagger Authentication config for the [OpenID Connect Discovery scheme](https://swagger.io/docs/specification/authentication/openid-connect-discovery/),
+edit the `application.properties` file so that it contains:
 
 ```
 security.config.openid-discovery=true
@@ -117,8 +117,8 @@ The result:
 ![swagger ui with openid discovery screenshot](readme-images/swagger-ui-open-id-discovery.png)
 
 #### Swagger UI with Authorization Code flow
-To enable the Swagger Authentication config for the [Authorization Code Flow](https://swagger.io/docs/specification/authentication/oauth2/)
-, edit the `application.properties` file so that it contains:
+To enable the Swagger Authentication config for the [Authorization Code Flow](https://swagger.io/docs/specification/authentication/oauth2/),
+edit the `application.properties` file so that it contains:
 
 ```
 security.config.authcode-flow=true
@@ -136,8 +136,8 @@ The result:
 ![swagger ui with authorization code flow screenshot](readme-images/swagger-ui-with-auth-code-flow.png)
 
 #### Swagger UI with Resource Owner Password flow
-To enable the Swagger Authentication config for the [Password Flow](https://swagger.io/docs/specification/authentication/oauth2/)
-, edit the `application.properties` file so that it contains:
+To enable the Swagger Authentication config for the [Password Flow](https://swagger.io/docs/specification/authentication/oauth2/),
+edit the `application.properties` file so that it contains:
 
 ```
 security.config.password-flow=true
