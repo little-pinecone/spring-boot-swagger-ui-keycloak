@@ -5,6 +5,8 @@ import in.keepgrowing.springbootswaggeruikeycloak.shared.infrastructure.config.s
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.OAuthFlow;
+import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.AllArgsConstructor;
@@ -15,11 +17,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition
 @AllArgsConstructor
-@ConditionalOnProperty(name = "security.config.openid-discovery", havingValue = "true")
-public class SwaggerOpenIdConfig {
+@ConditionalOnProperty(name = "security.config.password-flow", havingValue = "true")
+public class SwaggerPasswordFlowConfig {
 
-    private static final String OPEN_ID_SCHEME_NAME = "openId";
-    private static final String OPENID_CONFIG_FORMAT = "%s/realms/%s/.well-known/openid-configuration";
+    private static final String OAUTH_SCHEME_NAME = "oAuth";
+    private static final String TOKEN_URL_FORMAT = "%s/realms/%s/protocol/openid-connect/token";
 
     @Bean
     OpenAPI customOpenApi(KeycloakProperties keycloakProperties, ApiInfoProvider infoProvider) {
@@ -35,21 +37,35 @@ public class SwaggerOpenIdConfig {
         Components components = createComponentsWithSecurityScheme(properties);
         openApi
                 .components(components)
-                .addSecurityItem(new SecurityRequirement().addList(OPEN_ID_SCHEME_NAME));
+                .addSecurityItem(new SecurityRequirement().addList(OAUTH_SCHEME_NAME));
     }
 
     private Components createComponentsWithSecurityScheme(KeycloakProperties properties) {
-        SecurityScheme openIdScheme = createOpenIdScheme(properties);
+        SecurityScheme oAuthScheme = createOAuthScheme(properties);
 
         return new Components()
-                .addSecuritySchemes(OPEN_ID_SCHEME_NAME, openIdScheme);
+                .addSecuritySchemes(OAUTH_SCHEME_NAME, oAuthScheme);
     }
 
-    private SecurityScheme createOpenIdScheme(KeycloakProperties properties) {
-        String connectUrl = String.format(OPENID_CONFIG_FORMAT, properties.getAuthServerUrl(), properties.getRealm());
+    private SecurityScheme createOAuthScheme(KeycloakProperties properties) {
+        OAuthFlows flows = createAuthFlows(properties);
 
         return new SecurityScheme()
-                .type(SecurityScheme.Type.OPENIDCONNECT)
-                .openIdConnectUrl(connectUrl);
+                .type(SecurityScheme.Type.OAUTH2)
+                .flows(flows);
+    }
+
+    private OAuthFlows createAuthFlows(KeycloakProperties properties) {
+        OAuthFlow passwordFlow = createPasswordFlow(properties);
+
+        return new OAuthFlows()
+                .password(passwordFlow);
+    }
+
+    private OAuthFlow createPasswordFlow(KeycloakProperties properties) {
+        var tokenUrl = String.format(TOKEN_URL_FORMAT, properties.getAuthServerUrl(), properties.getRealm());
+
+        return new OAuthFlow()
+                .tokenUrl(tokenUrl);
     }
 }

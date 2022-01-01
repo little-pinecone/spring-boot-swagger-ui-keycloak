@@ -89,18 +89,19 @@ Make sure that the `keycloak` container is up.
 
 We can enable/disable specific application properties to run the app with different configurations.
 
-At the moment, the Swagger configs for the OpenID Connect Discovery scheme and the Authorization Code flow won't work with
-[Spring Boot csrf protection enabled for Springdoc](https://springdoc.org/#how-can-i-enable-csrf-support). Therefore,
-you won't be able to call the POST endpoints. However, you'll see the available authorizations provided by the OpenID
-Connect Discovery mechanism or use the Authorization Code flow to log in.
+At the moment, the Swagger configs for the `OpenID Connect Discovery` scheme, the `Authorization Code` and `Password` flows 
+won't work with [Spring Boot csrf protection enabled for Springdoc](https://springdoc.org/#how-can-i-enable-csrf-support). 
+Below you'll find instructions on how to run the app with these flows. However, the `csrf` protection will be disabled 
+so that you can see and use the available authorizations in Swagger UI. Therefore, calling POST endpoints will result 
+in the 403 error.
 
-#### SwaggerUI with OpenID Connect Discovery scheme
+#### Swagger UI with OpenID Connect Discovery scheme
 
-* Swagger Authentication config for the [OpenID Connect Discovery scheme](https://swagger.io/docs/specification/authentication/openid-connect-discovery/). 
-Edit the `application.properties` file so that it contains:
+To enable the Swagger Authentication config for the [OpenID Connect Discovery scheme](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)
+, edit the `application.properties` file so that it contains:
 
 ```
-security.config.openid-flow=true
+security.config.openid-discovery=true
 security.config.implicit-flow=false
 springdoc.swagger-ui.csrf.enabled=false
 ```
@@ -108,15 +109,16 @@ springdoc.swagger-ui.csrf.enabled=false
 Alternatively, run the app with the following command:
 
 ```shell
-mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.openid-flow=true --security.config.implicit-flow=false --springdoc.swagger-ui.csrf.enabled=false"
+mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.openid-discovery=true --security.config.implicit-flow=false --springdoc.swagger-ui.csrf.enabled=false"
 ```
 
-![swagger ui with keycloak auth for endpoints screenshot](readme-images/swagger-ui-open-id-discovery.png)
+The result:
 
-#### SwaggerUI with Authorization Code flow
+![swagger ui with openid discovery screenshot](readme-images/swagger-ui-open-id-discovery.png)
 
-* Swagger Authentication config for the [Authorization Code Flow](https://swagger.io/docs/specification/authentication/oauth2/).
-  Edit the `application.properties` file so that it contains:
+#### Swagger UI with Authorization Code flow
+To enable the Swagger Authentication config for the [Authorization Code Flow](https://swagger.io/docs/specification/authentication/oauth2/)
+, edit the `application.properties` file so that it contains:
 
 ```
 security.config.authcode-flow=true
@@ -129,8 +131,28 @@ Alternatively, run the app with the following command:
 ```shell
 mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.authcode-flow=true --security.config.implicit-flow=false --springdoc.swagger-ui.csrf.enabled=false"
 ```
+The result:
 
 ![swagger ui with authorization code flow screenshot](readme-images/swagger-ui-with-auth-code-flow.png)
+
+#### Swagger UI with Resource Owner Password flow
+To enable the Swagger Authentication config for the [Password Flow](https://swagger.io/docs/specification/authentication/oauth2/)
+, edit the `application.properties` file so that it contains:
+
+```
+security.config.password-flow=true
+security.config.implicit-flow=false
+springdoc.swagger-ui.csrf.enabled=false
+```
+
+Alternatively, run the app with the following command:
+
+```shell
+mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.password-flow=true --security.config.implicit-flow=false --springdoc.swagger-ui.csrf.enabled=false"
+```
+The result:
+
+![swagger ui with password flow screenshot](readme-images/swagger-ui-with-password-flow.png)
 
 ## Built With
 
