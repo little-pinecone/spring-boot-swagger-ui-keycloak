@@ -114,7 +114,7 @@ mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.openid-discov
 
 The result:
 
-![swagger ui with openid discovery screenshot](readme-images/swagger-ui-open-id-discovery.png)
+![swagger ui with openid discovery screenshot](readme-images/swagger-ui-with-openid-discovery-scheme.png)
 
 #### Swagger UI with Authorization Code flow
 To enable the Swagger Authentication config for the [Authorization Code Flow](https://swagger.io/docs/specification/authentication/oauth2/),
