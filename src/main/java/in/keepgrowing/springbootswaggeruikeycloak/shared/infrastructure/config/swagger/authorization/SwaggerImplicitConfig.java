@@ -44,10 +44,9 @@ public class SwaggerImplicitConfig {
 
     private Components createComponentsWithSecurityScheme(KeycloakProperties properties) {
         SecurityScheme oAuthScheme = createOAuthScheme(properties);
-        Components components = new Components();
-        components.addSecuritySchemes(OAUTH_SCHEME_NAME, oAuthScheme);
 
-        return components;
+        return new Components()
+                .addSecuritySchemes(OAUTH_SCHEME_NAME, oAuthScheme);
     }
 
     private SecurityScheme createOAuthScheme(KeycloakProperties properties) {
@@ -60,17 +59,15 @@ public class SwaggerImplicitConfig {
 
     private OAuthFlows createAuthFlows(KeycloakProperties properties) {
         OAuthFlow implicitFlow = createImplicitFlow(properties);
-        OAuthFlows flows = new OAuthFlows();
-        flows.implicit(implicitFlow);
 
-        return flows;
+        return new OAuthFlows()
+                .implicit(implicitFlow);
     }
 
     private OAuthFlow createImplicitFlow(KeycloakProperties properties) {
-        var authorizationUrl = String.format(AUTH_URL_FORMAT, properties.getAuthServerUrl(), properties.getRealm());
-        OAuthFlow implicit = new OAuthFlow();
-        implicit.authorizationUrl(authorizationUrl);
+        var authUrl = String.format(AUTH_URL_FORMAT, properties.getAuthServerUrl(), properties.getRealm());
 
-        return implicit;
+        return new OAuthFlow()
+                .authorizationUrl(authUrl);
     }
 }

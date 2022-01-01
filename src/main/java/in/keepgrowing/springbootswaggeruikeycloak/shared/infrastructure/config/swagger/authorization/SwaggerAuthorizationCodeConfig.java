@@ -41,10 +41,9 @@ public class SwaggerAuthorizationCodeConfig {
 
     private Components createComponentsWithSecurityScheme(KeycloakProperties properties) {
         SecurityScheme oAuthScheme = createOAuthScheme(properties);
-        Components components = new Components();
-        components.addSecuritySchemes(OAUTH_SCHEME_NAME, oAuthScheme);
 
-        return components;
+        return new Components()
+                .addSecuritySchemes(OAUTH_SCHEME_NAME, oAuthScheme);
     }
 
     private SecurityScheme createOAuthScheme(KeycloakProperties properties) {
@@ -57,10 +56,9 @@ public class SwaggerAuthorizationCodeConfig {
 
     private OAuthFlows createAuthFlows(KeycloakProperties properties) {
         OAuthFlow authCodeFlow = createAuthCodeFlow(properties);
-        OAuthFlows flows = new OAuthFlows();
-        flows.authorizationCode(authCodeFlow);
 
-        return flows;
+        return new OAuthFlows()
+                .authorizationCode(authCodeFlow);
     }
 
     private OAuthFlow createAuthCodeFlow(KeycloakProperties properties) {

@@ -42,10 +42,9 @@ public class SwaggerOpenIdConfig {
 
     private Components createComponentsWithSecurityScheme(KeycloakProperties properties) {
         SecurityScheme openIdScheme = createOpenIdScheme(properties);
-        Components components = new Components();
-        components.addSecuritySchemes(OPEN_ID_SCHEME_NAME, openIdScheme);
 
-        return components;
+        return new Components()
+                .addSecuritySchemes(OPEN_ID_SCHEME_NAME, openIdScheme);
     }
 
     private SecurityScheme createOpenIdScheme(KeycloakProperties properties) {
