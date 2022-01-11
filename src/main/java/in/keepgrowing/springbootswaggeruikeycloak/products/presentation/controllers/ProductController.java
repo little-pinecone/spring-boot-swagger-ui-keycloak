@@ -42,7 +42,7 @@ public class ProductController {
 
     @PostMapping()
     @PreAuthorize("hasAuthority('chief-operating-officer')")
-    @Operation(summary = "Save a product (available only for chief-operating-officer role")
+    @Operation(summary = "Save a product (available for the chief-operating-officer role, default user: 'christina')")
     public ResponseEntity<Product> save(@RequestBody Product productDetails) {
         return productRepository.save(productDetails)
                 .map(ResponseEntity::ok)
