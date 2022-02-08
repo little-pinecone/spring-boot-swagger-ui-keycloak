@@ -4,7 +4,7 @@
 
 ## About this project
 
-This Spring Boot project shows an example configuration of Springdoc and Keycloak Spring Boot adapter that ensures that 
+This Spring Boot project shows an example configuration of Springdoc and Keycloak Spring Boot adapter that ensures that
 only authenticated users can call secured endpoints available through Swagger UI:
 
 ![swagger ui with keycloak auth for endpoints screenshot](readme-images/swagger-ui-with-keycloak-auth-for-endpoints.png)
@@ -27,6 +27,7 @@ mvn spring-boot:run
 ```
 
 You can run the `keycloak` container with the following commands:
+
 ```shell
 cd docker
 docker-compose up -d
@@ -56,14 +57,16 @@ The MVC tests use Spring Boot Security not Keycloak. The `HttpSecurity` configur
 * `christina` has the `chief-operating-officer` realm role that is required to call the `POST: /api/products` endpoint
 
 The `keycloak` service starts with the default realm imported from the
-[docker/keycloak/realms/realm-export.json](docker/keycloak/realms/realm-export.json) file that specifies all the default users.
+[docker/keycloak/realms/realm-export.json](docker/keycloak/realms/realm-export.json) file that specifies all the default
+users.
 
 ### Visit API documentation
 
 Make sure that the app is running.
 
-* Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) 
-(click the `Authorize` button and log in as an example user of the `spring-boot-example-app` client to test secured endpoints)
+* Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+  (click the `Authorize` button and log in as an example user of the `spring-boot-example-app` client to test secured
+  endpoints)
 * OpenAPI specification: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
 ### Visit Keycloak
@@ -71,45 +74,52 @@ Make sure that the app is running.
 Make sure that the `keycloak` container is up.
 
 * Admin panel: [http://localhost:8024/auth](http://localhost:8024/auth) (log in as the Keycloak admin [`admin:admin`])
-* As an admin you can see a list of users associated with the `Spring-Boot-Example` realm by clicking the `View all users` button on the 
-[http://localhost:8024/auth/admin/master/console/#/realms/Spring-Boot-Example/users](http://localhost:8024/auth/admin/master/console/#/realms/Spring-Boot-Example/users) page.
-* What's more, you can log in as any user associated with the `Spring-Boot-Example` realm by clicking the `Sign in` button on the
-[http://localhost:8024/auth/realms/Spring-Boot-Example/account](http://localhost:8024/auth/realms/Spring-Boot-Example/account) page.
-* The realm roles are available under the [http://localhost:8024/auth/admin/master/console/#/realms/Spring-Boot-Example/roles](http://localhost:8024/auth/admin/master/console/#/realms/Spring-Boot-Example/roles) url.
+* As an admin you can see a list of users associated with the `Spring-Boot-Example` realm by clicking
+  the `View all users` button on the
+  [http://localhost:8024/auth/admin/master/console/#/realms/Spring-Boot-Example/users](http://localhost:8024/auth/admin/master/console/#/realms/Spring-Boot-Example/users)
+  page.
+* What's more, you can log in as any user associated with the `Spring-Boot-Example` realm by clicking the `Sign in`
+  button on the
+  [http://localhost:8024/auth/realms/Spring-Boot-Example/account](http://localhost:8024/auth/realms/Spring-Boot-Example/account)
+  page.
+* The realm roles are available under
+  the [http://localhost:8024/auth/admin/master/console/#/realms/Spring-Boot-Example/roles](http://localhost:8024/auth/admin/master/console/#/realms/Spring-Boot-Example/roles)
+  url.
 
 ## Features
 
 * Application secured with Keycloak
 * Swagger UI available for everyone but only authenticated users can call secured endpoints
-* Only users with `chief-operating-officer` realm role can call the `POST: /api/products` endpoint 
-(this role is assigned to `christina` by default)
+* Only users with `chief-operating-officer` realm role can call the `POST: /api/products` endpoint
+  (this role is assigned to `christina` by default)
 * OpenAPI 3 specification
 
 ### Experimental Authorization configurations for Swagger UI
 
 We can enable/disable specific application properties to run the app with different configurations.
 
-At the moment, the Swagger configs for the `OpenID Connect Discovery` scheme, the `Authorization Code` and `Password` flows 
-won't work with [Spring Boot csrf protection enabled for Springdoc](https://springdoc.org/#how-can-i-enable-csrf-support). 
-Below you'll find instructions on how to run the app with these flows. However, the `csrf` protection will be disabled 
-so that you can see and use the available authorizations in Swagger UI. Therefore, calling POST endpoints will result 
-in the 403 error.
+Prior to `springdoc-openapi v1.6.6`, the Swagger configs for the `OpenID Connect Discovery` scheme,
+the `Authorization Code` and `Password` flows didn't work
+with [Spring Boot csrf protection enabled for Springdoc](https://springdoc.org/#how-can-i-enable-csrf-support). The
+issue was fixed
+in [CSRF header should not be sent to cross domain sites](https://github.com/sebastien-helbert/springdoc-openapi/commit/a9cea74b832e639da0433c7e3eaf0025ebcce9c9)
+PR and this project uses this fix.
 
 #### Swagger UI with OpenID Connect Discovery scheme
 
-To enable the Swagger Authentication config for the [OpenID Connect Discovery scheme](https://swagger.io/docs/specification/authentication/openid-connect-discovery/),
+To enable the Swagger Authentication config for
+the [OpenID Connect Discovery scheme](https://swagger.io/docs/specification/authentication/openid-connect-discovery/),
 edit the `application.properties` file so that it contains:
 
 ```
 security.config.openid-discovery=true
 security.config.implicit-flow=false
-springdoc.swagger-ui.csrf.enabled=false
 ```
 
 Alternatively, run the app with the following command:
 
 ```shell
-mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.openid-discovery=true --security.config.implicit-flow=false --springdoc.swagger-ui.csrf.enabled=false"
+mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.openid-discovery=true --security.config.implicit-flow=false"
 ```
 
 The result:
@@ -117,39 +127,43 @@ The result:
 ![swagger ui with openid discovery screenshot](readme-images/swagger-ui-with-openid-discovery-scheme.png)
 
 #### Swagger UI with Authorization Code flow
-To enable the Swagger Authentication config for the [Authorization Code Flow](https://swagger.io/docs/specification/authentication/oauth2/),
-edit the `application.properties` file so that it contains:
+
+To enable the Swagger Authentication config for
+the [Authorization Code Flow](https://swagger.io/docs/specification/authentication/oauth2/), edit
+the `application.properties` file so that it contains:
 
 ```
 security.config.authcode-flow=true
 security.config.implicit-flow=false
-springdoc.swagger-ui.csrf.enabled=false
 ```
 
 Alternatively, run the app with the following command:
 
 ```shell
-mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.authcode-flow=true --security.config.implicit-flow=false --springdoc.swagger-ui.csrf.enabled=false"
+mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.authcode-flow=true --security.config.implicit-flow=false"
 ```
+
 The result:
 
 ![swagger ui with authorization code flow screenshot](readme-images/swagger-ui-with-auth-code-flow.png)
 
 #### Swagger UI with Resource Owner Password flow
-To enable the Swagger Authentication config for the [Password Flow](https://swagger.io/docs/specification/authentication/oauth2/),
-edit the `application.properties` file so that it contains:
+
+To enable the Swagger Authentication config for
+the [Password Flow](https://swagger.io/docs/specification/authentication/oauth2/), edit the `application.properties`
+file so that it contains:
 
 ```
 security.config.password-flow=true
 security.config.implicit-flow=false
-springdoc.swagger-ui.csrf.enabled=false
 ```
 
 Alternatively, run the app with the following command:
 
 ```shell
-mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.password-flow=true --security.config.implicit-flow=false --springdoc.swagger-ui.csrf.enabled=false"
+mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.password-flow=true --security.config.implicit-flow=false"
 ```
+
 The result:
 
 ![swagger ui with password flow screenshot](readme-images/swagger-ui-with-password-flow.png)
