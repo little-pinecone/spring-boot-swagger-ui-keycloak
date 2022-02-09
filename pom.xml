@@ -17,7 +17,7 @@
 		<java.version>17</java.version>
 		<dummy4j.version>0.9.0</dummy4j.version>
 		<springdoc.version>1.6.6</springdoc.version>
-		<keycloak-adapter.version>15.0.2</keycloak-adapter.version>
+		<keycloak-adapter.version>16.1.1</keycloak-adapter.version>
 	</properties>
 
 	<dependencyManagement>
