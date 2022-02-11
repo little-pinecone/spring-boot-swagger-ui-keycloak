@@ -7,7 +7,10 @@
 This Spring Boot project shows an example configuration of Springdoc and Keycloak Spring Boot adapter that ensures that
 only authenticated users can call secured endpoints available through Swagger UI:
 
-![swagger ui with keycloak auth for endpoints screenshot](readme-images/swagger-ui-with-keycloak-auth-for-endpoints.png)
+![swagger ui with authorization code flow screenshot](readme-images/swagger-ui-with-auth-code-flow.png)
+
+* client_id: `spring-boot-example-app`
+* client_secret should be left empty
 
 ## Getting started
 
@@ -66,7 +69,7 @@ Make sure that the app is running.
 
 * Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
   (click the `Authorize` button and log in as an example user of the `spring-boot-example-app` client to test secured
-  endpoints)
+  endpoints, the client is `public` so you don't need to fill the `client_secret` field)
 * OpenAPI specification: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
 ### Visit Keycloak
@@ -113,39 +116,18 @@ edit the `application.properties` file so that it contains:
 
 ```
 security.config.openid-discovery=true
-security.config.implicit-flow=false
+security.config.authcode-flow=false
 ```
 
 Alternatively, run the app with the following command:
 
 ```shell
-mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.openid-discovery=true --security.config.implicit-flow=false"
+mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.openid-discovery=true --security.config.authcode-flow=false"
 ```
 
 The result:
 
 ![swagger ui with openid discovery screenshot](readme-images/swagger-ui-with-openid-discovery-scheme.png)
-
-#### Swagger UI with Authorization Code flow
-
-To enable the Swagger Authentication config for
-the [Authorization Code Flow](https://swagger.io/docs/specification/authentication/oauth2/), edit
-the `application.properties` file so that it contains:
-
-```
-security.config.authcode-flow=true
-security.config.implicit-flow=false
-```
-
-Alternatively, run the app with the following command:
-
-```shell
-mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.authcode-flow=true --security.config.implicit-flow=false"
-```
-
-The result:
-
-![swagger ui with authorization code flow screenshot](readme-images/swagger-ui-with-auth-code-flow.png)
 
 #### Swagger UI with Resource Owner Password flow
 
@@ -155,18 +137,43 @@ file so that it contains:
 
 ```
 security.config.password-flow=true
-security.config.implicit-flow=false
+security.config.authcode-flow=false
 ```
 
 Alternatively, run the app with the following command:
 
 ```shell
-mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.password-flow=true --security.config.implicit-flow=false"
+mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.password-flow=true --security.config.authcode-flow=false"
 ```
 
 The result:
 
 ![swagger ui with password flow screenshot](readme-images/swagger-ui-with-password-flow.png)
+
+#### Swagger UI with Implicit flow
+
+This flow is deprecated[^1]
+
+To enable the Swagger Authentication config for
+the [Implicit Flow](https://swagger.io/docs/specification/authentication/oauth2/), edit the `application.properties`
+file so that it contains:
+
+```
+security.config.implicit-flow=true
+security.config.authcode-flow=false
+```
+
+Alternatively, run the app with the following command:
+
+```shell
+mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.implicit-flow=true --security.config.authcode-flow=false"
+```
+
+The result:
+
+![swagger ui with keycloak auth for endpoints screenshot](readme-images/swagger-ui-with-keycloak-auth-for-endpoints.png)
+
+[^1]: *Why not Implicit flow* in [How to authorize requests via Postman](https://keepgrowing.in/tools/kecloak-in-docker-7-how-to-authorize-requests-via-postman)
 
 ## Built With
 
