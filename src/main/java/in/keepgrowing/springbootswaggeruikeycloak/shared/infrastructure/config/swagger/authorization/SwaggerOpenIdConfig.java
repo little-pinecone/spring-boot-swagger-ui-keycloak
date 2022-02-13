@@ -23,26 +23,11 @@ public class SwaggerOpenIdConfig {
 
     @Bean
     OpenAPI customOpenApi(KeycloakProperties keycloakProperties, ApiInfoProvider infoProvider) {
-        var openAPI = new OpenAPI()
-                .info(infoProvider.provide());
-
-        addSecurity(openAPI, keycloakProperties);
-
-        return openAPI;
-    }
-
-    private void addSecurity(OpenAPI openApi, KeycloakProperties properties) {
-        Components components = createComponentsWithSecurityScheme(properties);
-        openApi
-                .components(components)
+        return new OpenAPI()
+                .info(infoProvider.provide())
+                .components(new Components()
+                        .addSecuritySchemes(OPEN_ID_SCHEME_NAME, createOpenIdScheme(keycloakProperties)))
                 .addSecurityItem(new SecurityRequirement().addList(OPEN_ID_SCHEME_NAME));
-    }
-
-    private Components createComponentsWithSecurityScheme(KeycloakProperties properties) {
-        SecurityScheme openIdScheme = createOpenIdScheme(properties);
-
-        return new Components()
-                .addSecuritySchemes(OPEN_ID_SCHEME_NAME, openIdScheme);
     }
 
     private SecurityScheme createOpenIdScheme(KeycloakProperties properties) {

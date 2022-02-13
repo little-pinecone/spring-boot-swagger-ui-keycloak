@@ -22,44 +22,29 @@ public class SwaggerAuthorizationCodeConfig {
 
     @Bean
     OpenAPI customOpenApi(KeycloakProperties keycloakProperties, ApiInfoProvider infoProvider) {
-        var openAPI = new OpenAPI()
-                .info(infoProvider.provide());
-
-        addSecurity(openAPI, keycloakProperties);
-
-        return openAPI;
-    }
-
-    private void addSecurity(OpenAPI openApi, KeycloakProperties properties) {
-        Components components = createComponentsWithSecurityScheme(properties);
-        openApi
-                .components(components)
+        return new OpenAPI()
+                .info(infoProvider.provide())
+                .components(new Components()
+                        .addSecuritySchemes(OAUTH_SCHEME_NAME, createOAuthScheme(keycloakProperties)))
                 .addSecurityItem(new SecurityRequirement().addList(OAUTH_SCHEME_NAME));
     }
 
-    private Components createComponentsWithSecurityScheme(KeycloakProperties properties) {
-        SecurityScheme oAuthScheme = createOAuthScheme(properties);
-
-        return new Components()
-                .addSecuritySchemes(OAUTH_SCHEME_NAME, oAuthScheme);
-    }
-
     private SecurityScheme createOAuthScheme(KeycloakProperties properties) {
-        OAuthFlows flows = createAuthFlows(properties);
+        OAuthFlows flows = createOAuthFlows(properties);
 
         return new SecurityScheme()
                 .type(SecurityScheme.Type.OAUTH2)
                 .flows(flows);
     }
 
-    private OAuthFlows createAuthFlows(KeycloakProperties properties) {
-        OAuthFlow authCodeFlow = createAuthCodeFlow(properties);
+    private OAuthFlows createOAuthFlows(KeycloakProperties properties) {
+        OAuthFlow authorizationCodeFlow = createAuthorizationCodeFlow(properties);
 
         return new OAuthFlows()
-                .authorizationCode(authCodeFlow);
+                .authorizationCode(authorizationCodeFlow);
     }
 
-    private OAuthFlow createAuthCodeFlow(KeycloakProperties properties) {
+    private OAuthFlow createAuthorizationCodeFlow(KeycloakProperties properties) {
         var protocolUrl = String.format(PROTOCOL_URL_FORMAT, properties.getAuthServerUrl(), properties.getRealm());
 
         return new OAuthFlow()
