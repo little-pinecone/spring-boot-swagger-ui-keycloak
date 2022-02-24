@@ -129,6 +129,33 @@ The result:
 
 ![swagger ui with openid discovery screenshot](readme-images/swagger-ui-with-openid-discovery-scheme.png)
 
+#### Swagger UI with Bearer Authentication
+
+To enable the Swagger Authentication config for
+the [Bearer Authentication](https://swagger.io/docs/specification/authentication/bearer-authentication/), edit the 
+`application.properties` file so that it contains:
+
+```
+security.config.bearer=true
+security.config.authcode-flow=false
+```
+
+Alternatively, run the app with the following command:
+
+```shell
+mvn spring-boot:run -Dspring-boot.run.arguments="--security.config.bearer=true --security.config.authcode-flow=false"
+```
+
+The result:
+
+![swagger ui with bearer authentication screenshot](readme-images/swagger-ui-with-bearer-scheme.png)
+
+Make sure that the token contains realm roles (`realm_access` in the screenshot below):
+
+![token with realm roles screenshot](readme-images/token-with-realm-roles.png)
+
+Otherwise, the POST endpoint will return 403 Forbidden (it requires the `chief-operating-officer` role).
+
 #### Swagger UI with Resource Owner Password flow
 
 To enable the Swagger Authentication config for
